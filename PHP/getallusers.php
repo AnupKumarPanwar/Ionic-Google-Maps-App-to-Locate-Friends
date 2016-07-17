@@ -46,9 +46,23 @@ if (isset($postdata))
 
 	$updatelocation="UPDATE users SET latitude='$lat', longitude='$lon' WHERE id=$id";
 
-	$sendFeeling="SELECT * FROM users WHERE 1";
+	$checkuser="SELECT * FROM users WHERE id=$id";
 
-	$result=mysqli_query($conn, $sendFeeling);
+	$adduser="INSERT INTO users (id, name, latitude, longitude)
+VALUES ('$id','$name', '$lat', '$lon')"
+
+	
+	if(mysqli_num_rows(mysqli_query($conn, $checkuser))<1)
+	{
+		mysqli_query($conn, $adduser);
+	}
+
+	else
+	{
+		mysqli_query($conn, $updatelocation);
+	}
+
+
 	$row=array();
 	while ($r=mysqli_fetch_assoc($result)) {
 		$row[]=$r;
