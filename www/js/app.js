@@ -20,7 +20,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
             StatusBar.styleDefault();
         }
         ngFB.init({
-            appId: '1780520115500038'
+            appId: '1032568913478697'
         });
     });
 })
@@ -36,7 +36,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
         var mapOptions = {
             center: myLatlng,
             zoom: 20,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.HYBRID
         };
 
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
