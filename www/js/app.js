@@ -80,18 +80,23 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
                                     // var link="localhost/makenewaccount.php";
                                     // $http.post(link, result.data).then(function (res){
                                     // $scope.response = res.data;
+                                    var time=new Date;
+                                    console.log(time.toLocaleString());
                                     var alllocations = [{picture:100003549170023,
                                     	name: 'Anup Kumar Panwar',
                                         lat: 30.7333,
-                                        lng: 76.7794
+                                        lng: 76.7794,
+                                        time:time.toLocaleString()
                                     }, {picture:100003549170023,
                                     	name: 'Tushar',
                                         lat: 27.363,
-                                        lng: 71.044
+                                        lng: 71.044,
+                                        time:time.toLocaleString()
                                     }, {picture:100003549170023,
                                     	name: 'Anup Kumar Panwar',
                                         lat: 24.363,
-                                        lng: 90.044
+                                        lng: 90.044,
+                                        time:time.toLocaleString()
                                     }];
 
 
@@ -109,7 +114,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
 
                                     for (var i = 0; i < alllocations.length; i++) {
                                         
-                                        var contentString = '<center><img src=https://graph.facebook.com/'+alllocations[i].picture+'/picture?type=large style="width:100px; height: 100px; border-radius:50%"><br>' + alllocations[i].name;
+                                        var contentString = '<center><img src=https://graph.facebook.com/'+alllocations[i].picture+'/picture?type=large style="width:100px; height: 100px; border-radius:50%"><br>' + alllocations[i].name+ '<br>Last Seen at <code>' + alllocations[i].time;
 
                                         var myLocation = new google.maps.Marker({
                                             position: alllocations[i],

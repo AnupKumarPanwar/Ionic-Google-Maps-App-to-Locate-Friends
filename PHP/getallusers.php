@@ -23,12 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "test";
+$dbname = "locations";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Check connection
-
 
 
 // http://stackoverflow.com/questions/15485354/angular-http-post-to-php-and-undefined
@@ -44,14 +43,14 @@ if (isset($postdata))
 	$lat=$request->latitude;
 	$lon=$request->longitude;
 
-	$updatelocation="UPDATE users SET latitude='$lat', longitude='$lon' WHERE id=$id";
+	// echo "$id";
+	$checkuser="SELECT * FROM users WHERE id='$id'";
+	$updatelocation="UPDATE users SET latitude='$lat', longitude='$lon' WHERE id='$id'";
 
-	$checkuser="SELECT * FROM users WHERE id=$id";
+	$adduser="INSERT INTO users (id, name, latitude, longitude) VALUES ('$id', '$name', '$lat', '$lon')";
 
-	$adduser="INSERT INTO users (id, name, latitude, longitude)
-VALUES ('$id','$name', '$lat', '$lon')"
+	echo mysqli_num_rows(mysqli_query($conn, $checkuser));
 
-	
 	if(mysqli_num_rows(mysqli_query($conn, $checkuser))<1)
 	{
 		mysqli_query($conn, $adduser);
@@ -63,6 +62,9 @@ VALUES ('$id','$name', '$lat', '$lon')"
 	}
 
 
+	$getallusers="SELECT * FROM users WHERE 1";
+
+	$result=mysqli_query($conn, $getallusers);
 	$row=array();
 	while ($r=mysqli_fetch_assoc($result)) {
 		$row[]=$r;
