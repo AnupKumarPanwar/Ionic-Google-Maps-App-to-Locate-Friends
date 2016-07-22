@@ -47,7 +47,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
         $scope.fbLogin = function() {
 
             var userdata = {}
-            var alllocations={}
+            var alllocations = {}
 
             ngFB.login({
                 scope: 'email, public_profile, publish_actions'
@@ -69,7 +69,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
                                 console.log(user);
                                 userdata = user;
                                 navigator.geolocation.getCurrentPosition(function(pos) {
-                                   
+
                                     var userlocation = {
                                         'name': userdata.name,
                                         'id': userdata.id,
@@ -80,6 +80,36 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
                                     // var link="localhost/makenewaccount.php";
                                     // $http.post(link, result.data).then(function (res){
                                     // $scope.response = res.data;
+                                    var alllocations = [{picture:100003549170023,
+                                    	name: 'Anup Kumar Panwar',
+                                        lat: 30.7333,
+                                        lng: 76.7794
+                                    }, {picture:100003549170023,
+                                    	name: 'Tushar',
+                                        lat: 27.363,
+                                        lng: 71.044
+                                    }, {picture:100003549170023,
+                                    	name: 'Anup Kumar Panwar',
+                                        lat: 24.363,
+                                        lng: 90.044
+                                    }];
+                                    for (var i = 0; i < alllocations.length; i++) {
+
+                                        var contentString[i] = "yo yo ";
+                                            var infowindow = new google.maps.InfoWindow({
+                                                content: contentString
+                                            });
+
+                                        var myLocation = new google.maps.Marker({
+                                            position: alllocations[i],
+                                            map: map,
+                                            title: 'hello ' + i
+                                        });
+
+                                        myLocation.addListener('click', function(){
+                                        	infowindow.open(map, myLocation);
+                                        })
+                                    }
 
                                 });
 
@@ -99,9 +129,66 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
 
 
 
-        $interval(function() {
+        // ______________________________________________________________________________________________________________________________
 
-        }, 10000)
+        // var userdata = {}
+        // var alllocations={}
+
+        // ngFB.login({
+        //     scope: 'email, public_profile, publish_actions'
+        // }).then(
+        //     function(response) {
+        //         if (response.status === 'connected') {
+        //             console.log('Facebook login succeeded');
+
+
+
+
+        //             ngFB.api({
+        //                 path: '/me',
+        //                 params: {
+        //                     fields: 'id,name'
+        //                 }
+        //             }).then(
+        //                 function(user) {
+        //                     console.log(user);
+        //                     userdata = user;
+        //                     navigator.geolocation.getCurrentPosition(function(pos) {
+
+        //                         var userlocation = {
+        //                             'name': userdata.name,
+        //                             'id': userdata.id,
+        //                             'latitude': pos.coords.latitude,
+        //                             'longitude': pos.coords.longitude
+        //                         }
+
+        //                         // var link="localhost/makenewaccount.php";
+        //                         // $http.post(link, result.data).then(function (res){
+        //                         // $scope.response = res.data;
+        //                         var alllocations=[{lat: 30.7333, lng: 76.7794}, {lat: 27.363, lng: 71.044}, {lat: 24.363, lng: 90.044} ];
+        //                         for (var i = 0; i < alllocations.length; i++) {
+        //                         	var myLocation = new google.maps.Marker({
+        //                         	position : alllocations[i],
+        //                         	map : map,
+        //                         	title: 'hello'
+        //                         	});
+        //                         }
+
+        //                     });
+
+        //                     $scope.user = user;
+        //                 },
+
+        //                 function(error) {
+        //                     alert('Facebook error: ' + error.error_description);
+        //                 });
+
+        //         } else {
+        //             alert('Facebook login failed');
+        //         }
+        //     });
+        // ______________________________________________________________________________________________________________________________
+
 
 
 

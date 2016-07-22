@@ -27,8 +27,8 @@
     </button>
     </label> -->
 
-    <div id="map" data-tap-disabled="true"></div>
-    <img src="img/plus.png" style="position:fixed; bottom:0%; right:0%; width:100px; " ng-click="fbLogin();">
+    <div id="map" data-tap-disabled="true" ng-init="fbLogin();"></div>
+    <img src="img/plus.png" style="position:fixed; bottom:0%; right:0%; width:100px; " ng-click="fbLogin();" >
 </ion-content>
         </ion-pane>
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCn3SeBfxZKFWcDgFqcS2i2Nt2UjU3SgZ8&sensor=true"></script>
