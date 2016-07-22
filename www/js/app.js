@@ -27,7 +27,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
 
 
 
-.controller('MapController', function($scope, $ionicLoading, $interval, $ionicModal, $timeout, ngFB) {
+.controller('MapController', function($scope, $ionicLoading, $interval, $ionicModal, $timeout, ngFB, $http) {
 
 
     google.maps.event.addDomListener(window, 'load', function() {
@@ -70,34 +70,27 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
                                 userdata = user;
                                 navigator.geolocation.getCurrentPosition(function(pos) {
 
+                                    var time=new Date;
+                                    console.log(time.toLocaleString());
+
                                     var userlocation = {
                                         'name': userdata.name,
                                         'id': userdata.id,
                                         'latitude': pos.coords.latitude,
-                                        'longitude': pos.coords.longitude
+                                        'longitude': pos.coords.longitude,
+                                        'time':time.toLocaleString()
                                     }
 
-                                    // var link="localhost/makenewaccount.php";
-                                    // $http.post(link, result.data).then(function (res){
-                                    // $scope.response = res.data;
-                                    var time=new Date;
-                                    console.log(time.toLocaleString());
-                                    var alllocations = [{picture:100003549170023,
-                                    	name: 'Anup Kumar Panwar',
-                                        lat: 30.7333,
-                                        lng: 76.7794,
-                                        time:time.toLocaleString()
-                                    }, {picture:100003549170023,
-                                    	name: 'Tushar',
-                                        lat: 27.363,
-                                        lng: 71.044,
-                                        time:time.toLocaleString()
-                                    }, {picture:100003549170023,
-                                    	name: 'Anup Kumar Panwar',
-                                        lat: 24.363,
-                                        lng: 90.044,
-                                        time:time.toLocaleString()
-                                    }];
+                                    var link="http://whereareyou.16mb.com/getallusers.php";
+                                    $http.post(link, userlocation).then(function (res){
+                                        var tempalllocations=res.data.data;
+                                        console.log(tempalllocations);
+                                        alllocations=tempalllocations.replace(/['"]+/g, '');
+                                    })
+
+                                
+                                    
+                                    
 
 
                                     function addinfowindow(marker, message)
@@ -125,6 +118,17 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
 
                                        addinfowindow(myLocation, contentString);
                                     }
+
+
+
+                                    $interval(function(){
+                                    var link="http://whereareyou.16mb.com/getallusers.php";
+                                    $http.post(link, userlocation).then(function (res){
+                                        alllocations=res.data;
+                                    })
+
+                                },10000)
+
 
                                 });
 
@@ -209,11 +213,11 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
 
         navigator.geolocation.getCurrentPosition(function(pos) {
             map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-            var myLocation = new google.maps.Marker({
-                position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-                map: map,
-                title: "My Location"
-            });
+            // var myLocation = new google.maps.Marker({
+            //     position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+            //     map: map,
+            //     title: "My Location"
+            // });
         });
 
         $scope.map = map;
