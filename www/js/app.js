@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
 
         var mapOptions = {
             center: myLatlng,
-            zoom: 20,
+            zoom: 4,
             mapTypeId: google.maps.MapTypeId.HYBRID
         };
 
@@ -46,8 +46,8 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
 
         $scope.fbLogin = function() {
 
-            var userdata = {}
-            var alllocations = {}
+            var userdata = {};
+            var alllocations = {};
 
             ngFB.login({
                 scope: 'email, public_profile, publish_actions'
@@ -93,22 +93,32 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
                                         lat: 24.363,
                                         lng: 90.044
                                     }];
-                                    for (var i = 0; i < alllocations.length; i++) {
 
-                                        var contentString[i] = "yo yo ";
-                                            var infowindow = new google.maps.InfoWindow({
-                                                content: contentString
-                                            });
+
+                                    function addinfowindow(marker, message)
+                                    {
+                                    	var infoWindow=new google.maps.InfoWindow({
+                                    		content:message
+                                    	})
+
+                                    	google.maps.event.addListener(marker, 'click', function(){
+                                    		infoWindow.open(map, marker);
+                                    	})
+                                    }
+
+
+                                    for (var i = 0; i < alllocations.length; i++) {
+                                        
+                                        var contentString = '<center><img src=https://graph.facebook.com/'+alllocations[i].picture+'/picture?type=large style="width:100px; height: 100px; border-radius:50%"><br>' + alllocations[i].name;
 
                                         var myLocation = new google.maps.Marker({
                                             position: alllocations[i],
                                             map: map,
+                                            clickable: true,
                                             title: 'hello ' + i
                                         });
 
-                                        myLocation.addListener('click', function(){
-                                        	infowindow.open(map, myLocation);
-                                        })
+                                       addinfowindow(myLocation, contentString);
                                     }
 
                                 });
