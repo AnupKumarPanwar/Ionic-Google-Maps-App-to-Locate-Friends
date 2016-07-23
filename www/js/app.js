@@ -120,7 +120,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
                                                 map: map,
                                                 clickable: true,
                                                 title: alllocations[i].name,
-                                                icon:'<div style="width:20px; height:20px; background-color:red"></div>' 
+                                                icon: {url:'https://graph.facebook.com/' + alllocations[i].id + '/picture?type=large', scaledSize: new google.maps.Size(50, 50)}
                                             });
 
                                             addinfowindow(myLocation, contentString);
