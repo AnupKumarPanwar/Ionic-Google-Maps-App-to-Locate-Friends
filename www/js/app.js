@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
 
         var mapOptions = {
             center: myLatlng,
-            zoom: 4,
+            zoom: 20,
             mapTypeId: google.maps.MapTypeId.HYBRID
         };
 
@@ -70,7 +70,7 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
                                 userdata = user;
                                 navigator.geolocation.getCurrentPosition(function(pos) {
 
-                                    var time=new Date;
+                                    var time = new Date;
                                     console.log(time.toLocaleString());
 
                                     var userlocation = {
@@ -78,56 +78,75 @@ angular.module('starter', ['ionic', 'ngOpenFB'])
                                         'id': userdata.id,
                                         'latitude': pos.coords.latitude,
                                         'longitude': pos.coords.longitude,
-                                        'time':time.toLocaleString()
+                                        'time': time.toLocaleString()
                                     }
 
-                                    var link="http://whereareyou.16mb.com/getallusers.php";
-                                    $http.post(link, userlocation).then(function (res){
-                                        var tempalllocations=res.data.data;
-                                        console.log(tempalllocations);
-                                        alllocations=tempalllocations.replace(/['"]+/g, '');
+                                    var link = "http://whereareyou.16mb.com/getallusers.php";
+                                    $http.post(link, userlocation).then(function(res) {
+                                        // var tempalllocations=res.data.data;
+                                        // alllocations=JSON.stringify(tempalllocations);
+                                        // alllocations=tempalllocations.replace(/['"]+/g, '');
+                                        // console.log(alllocations);
+                                        alllocations = res.data.data;
+
+
+
+
+                                        function addinfowindow(marker, message) {
+                                            var infoWindow = new google.maps.InfoWindow({
+                                                content: message
+                                            })
+
+                                            google.maps.event.addListener(marker, 'click', function() {
+                                                infoWindow.open(map, marker);
+                                            })
+                                        }
+
+
+                                        for (var i = 0; i < alllocations.length; i++) {
+
+                                            var contentString = '<center><img src=https://graph.facebook.com/' + alllocations[i].id + '/picture?type=large style="width:100px; height: 100px; border-radius:50%"><br>' + alllocations[i].name + '<br>Last Seen at <code>' + alllocations[i].time;
+                                            var mycoordinates = new google.maps.LatLng(alllocations[i].latitude, alllocations[i].longitude);
+                                            // alert(mycoordinates);
+
+                                            var link = "http://whereareyou.16mb.com/markerpic.php";
+                                            var whosepic={"id":alllocations[i].id}
+                                            $http.post(link, whosepic).then(function(res) {
+                                                console.log(res);
+                                    });
+
+                                            var myLocation = new google.maps.Marker({
+                                                position: mycoordinates,
+                                                map: map,
+                                                clickable: true,
+                                                title: alllocations[i].name,
+                                                icon:'<div style="width:20px; height:20px; background-color:red"></div>' 
+                                            });
+
+                                            addinfowindow(myLocation, contentString);
+                                        }
+
+
+
+
+                                        console.log(alllocations);
                                     })
 
-                                
-                                    
-                                    
 
-
-                                    function addinfowindow(marker, message)
-                                    {
-                                    	var infoWindow=new google.maps.InfoWindow({
-                                    		content:message
-                                    	})
-
-                                    	google.maps.event.addListener(marker, 'click', function(){
-                                    		infoWindow.open(map, marker);
-                                    	})
-                                    }
-
-
-                                    for (var i = 0; i < alllocations.length; i++) {
-                                        
-                                        var contentString = '<center><img src=https://graph.facebook.com/'+alllocations[i].picture+'/picture?type=large style="width:100px; height: 100px; border-radius:50%"><br>' + alllocations[i].name+ '<br>Last Seen at <code>' + alllocations[i].time;
-
-                                        var myLocation = new google.maps.Marker({
-                                            position: alllocations[i],
-                                            map: map,
-                                            clickable: true,
-                                            title: 'hello ' + i
-                                        });
-
-                                       addinfowindow(myLocation, contentString);
-                                    }
+                                    // alllocations=[{"id":"908316652629965","name":"Anup Kumar Panwar","latitude":"30.7486833","longitude":"76.7577116","time":"7/22/2016, 3:27:08 PM"}];
 
 
 
-                                    $interval(function(){
-                                    var link="http://whereareyou.16mb.com/getallusers.php";
-                                    $http.post(link, userlocation).then(function (res){
-                                        alllocations=res.data;
-                                    })
 
-                                },10000)
+                                    console.log("reached here");
+
+                                    //     $interval(function(){
+                                    //     var link="http://whereareyou.16mb.com/getallusers.php";
+                                    //     $http.post(link, userlocation).then(function (res){
+                                    //         alllocations=res.data;
+                                    //     })
+
+                                    // },10000)
 
 
                                 });
